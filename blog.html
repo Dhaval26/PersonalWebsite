@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Your Name</h1>
+        <h1 id="blogName">Your Name</h1>
         <nav>
             <a href="index.html">Home</a> |
             <a href="blog.html">Blog</a>
@@ -16,20 +16,58 @@
     </header>
     <main>
         <h2>Blog</h2>
-        <p>Add your blog posts below. Create new sections for each post.</p>
-
-        <article>
-            <h3>Sample Post Title</h3>
-            <p>Date: 2024-01-01</p>
-            <p>Write about networking and AI here.</p>
-        </article>
-        <!-- Add more articles for new posts -->
+        <section id="newPost">
+            <h3>Create Post</h3>
+            <label>Title:<input id="postTitle"></label>
+            <label>Date:<input id="postDate" type="date"></label>
+            <label>Content:<textarea id="postContent"></textarea></label>
+            <button id="addPostBtn">Add Post</button>
+        </section>
+        <section id="posts"></section>
     </main>
     <footer>
-        <p>&copy; <span id="year"></span> Your Name</p>
+        <p>&copy; <span id="year"></span> <span id="footerName">Your Name</span></p>
     </footer>
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
+        const profile = JSON.parse(localStorage.getItem('profile')) || {name:'Your Name'};
+        document.getElementById('blogName').textContent = profile.name;
+        document.getElementById('footerName').textContent = profile.name;
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        function renderPosts() {
+            const container = document.getElementById('posts');
+            container.innerHTML = '';
+            if (posts.length === 0) {
+                container.textContent = 'No posts yet.';
+                return;
+            }
+            posts.forEach(p => {
+                const article = document.createElement('article');
+                const h3 = document.createElement('h3');
+                h3.textContent = p.title;
+                const dateP = document.createElement('p');
+                dateP.textContent = 'Date: ' + p.date;
+                const contentP = document.createElement('p');
+                contentP.textContent = p.content;
+                article.appendChild(h3);
+                article.appendChild(dateP);
+                article.appendChild(contentP);
+                container.appendChild(article);
+            });
+        }
+        renderPosts();
+        document.getElementById('addPostBtn').addEventListener('click', () => {
+            const title = document.getElementById('postTitle').value.trim();
+            const date = document.getElementById('postDate').value;
+            const content = document.getElementById('postContent').value.trim();
+            if (!title || !date || !content) return;
+            posts.push({title, date, content});
+            localStorage.setItem('posts', JSON.stringify(posts));
+            renderPosts();
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postDate').value = '';
+            document.getElementById('postContent').value = '';
+        });
     </script>
 </body>
 </html>

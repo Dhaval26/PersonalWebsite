@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Your Name</h1>
+        <h1 id="nameHeading">Your Name</h1>
         <nav>
             <a href="index.html">Home</a> |
             <a href="blog.html">Blog</a>
@@ -17,24 +17,72 @@
     <main>
         <section id="about">
             <h2>About Me</h2>
-            <p>Brief introduction about yourself.</p>
+            <p id="aboutDisplay">Brief introduction about yourself.</p>
         </section>
         <section id="skills">
             <h2>Skills</h2>
-            <ul>
+            <ul id="skillsDisplay">
                 <li>List your skills here.</li>
             </ul>
         </section>
         <section id="education">
             <h2>Education</h2>
-            <p>Write about your education background.</p>
+            <p id="educationDisplay">Write about your education background.</p>
+        </section>
+
+        <section id="edit">
+            <h2>Edit Your Details</h2>
+            <label>Name:<input id="nameInput"></label>
+            <label>About:<textarea id="aboutInput"></textarea></label>
+            <label>Skills (one per line):<textarea id="skillsInput"></textarea></label>
+            <label>Education:<textarea id="educationInput"></textarea></label>
+            <button id="saveBtn">Save</button>
         </section>
     </main>
     <footer>
-        <p>&copy; <span id="year"></span> Your Name</p>
+        <p>&copy; <span id="year"></span> <span id="footerName">Your Name</span></p>
     </footer>
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
+
+        const stored = JSON.parse(localStorage.getItem('profile')) || {
+            name: 'Your Name',
+            about: 'Brief introduction about yourself.',
+            skills: ['List your skills here.'],
+            education: 'Write about your education background.'
+        };
+
+        function display(data) {
+            document.getElementById('nameHeading').textContent = data.name;
+            document.getElementById('footerName').textContent = data.name;
+            document.getElementById('aboutDisplay').textContent = data.about;
+            const ul = document.getElementById('skillsDisplay');
+            ul.innerHTML = '';
+            data.skills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill;
+                ul.appendChild(li);
+            });
+            document.getElementById('educationDisplay').textContent = data.education;
+        }
+
+        display(stored);
+
+        document.getElementById('nameInput').value = stored.name;
+        document.getElementById('aboutInput').value = stored.about;
+        document.getElementById('skillsInput').value = stored.skills.join('\n');
+        document.getElementById('educationInput').value = stored.education;
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const updated = {
+                name: document.getElementById('nameInput').value,
+                about: document.getElementById('aboutInput').value,
+                skills: document.getElementById('skillsInput').value.split(/\n+/).map(s => s.trim()).filter(Boolean),
+                education: document.getElementById('educationInput').value
+            };
+            localStorage.setItem('profile', JSON.stringify(updated));
+            display(updated);
+        });
     </script>
 </body>
 </html>

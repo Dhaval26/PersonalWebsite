@@ -27,3 +27,31 @@ footer {
     text-align: center;
     padding: 1rem;
 }
+
+#edit, #newPost {
+    background-color: #f9f9f9;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+article {
+    margin-bottom: 1.5rem;
+}
