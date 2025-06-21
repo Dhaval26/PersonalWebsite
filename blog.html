@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Personal Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Your Name</h1>
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="blog.html">Blog</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Blog</h2>
+        <p>Add your blog posts below. Create new sections for each post.</p>
+
+        <article>
+            <h3>Sample Post Title</h3>
+            <p>Date: 2024-01-01</p>
+            <p>Write about networking and AI here.</p>
+        </article>
+        <!-- Add more articles for new posts -->
+    </main>
+    <footer>
+        <p>&copy; <span id="year"></span> Your Name</p>
+    </footer>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
